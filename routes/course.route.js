@@ -11,7 +11,7 @@ let Subject = require('../models/subject.model');
 //first parameter field name in course schema
 //second paramter is selected field to show 
 router.get('/',(req,res,next)=>{
-    Course.find({}).populate('subject','name').exec((err,result)=>{
+    Course.find({}).populate('subject','name amount description').exec((err,result)=>{
         if(err){
             res.status(404).json({
                 err
@@ -22,6 +22,12 @@ router.get('/',(req,res,next)=>{
     })
 });
 
+router.get('/:id',(req,res,next)=>{
+        Course.findById(req.params.id, (err, course) => {
+        if (err) return res.status(500).json(err)
+        return res.status(200).json(course)
+    })
+});
 
 //post cousre
 router.post('/add', (req,res,next)=>{
